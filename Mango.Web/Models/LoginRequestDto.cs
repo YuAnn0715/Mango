@@ -2,7 +2,7 @@
 
 namespace Mango.Web.Models
 {
-    // 使用者登入請求
+    // 使用者登入請求view
     public class LoginRequestDto
     {
         // 登入帳號

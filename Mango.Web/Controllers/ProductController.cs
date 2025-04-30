@@ -46,8 +46,7 @@ namespace Mango.Web.Controllers
         /// <summary>
         /// 調用新增產品API
         /// </summary>
-        /// <param name="model">產品內容</param>
-        /// <returns>結果</returns>
+        /// <param name="model">產品請求內容</param>
         [HttpPost]
         public async Task<IActionResult> ProductCreate(ProductDto model)
         {
@@ -70,8 +69,7 @@ namespace Mango.Web.Controllers
         /// <summary>
         /// 編輯產品頁面
         /// </summary>
-        /// <param name="productId"></param>
-        /// <returns></returns>
+        /// <param name="productId">產品編號</param>
         public async Task<IActionResult> ProductEdit(int productId)
         {
             ResponseDto? response = await _productService.GetProductByIdAsync(productId);
@@ -90,8 +88,7 @@ namespace Mango.Web.Controllers
         /// <summary>
         /// 調用編輯產品API
         /// </summary>
-        /// <param name="productDto"></param>
-        /// <returns></returns>
+        /// <param name="productDto">產品請求內容</param>
         [HttpPost]
         public async Task<IActionResult> ProductEdit(ProductDto productDto)
         {
@@ -112,8 +109,7 @@ namespace Mango.Web.Controllers
         /// <summary>
         /// 刪除產品頁面
         /// </summary>
-        /// <param name="productId"></param>
-        /// <returns></returns>
+        /// <param name="productId">產品編號</param>
         public async Task<IActionResult> ProductDelete(int productId)
         {
             ResponseDto? response = await _productService.GetProductByIdAsync(productId);
@@ -132,7 +128,7 @@ namespace Mango.Web.Controllers
         /// <summary>
         /// 調用刪除產品API
         /// </summary>
-        /// <param name="productDto"></param>
+        /// <param name="productDto">產品請求內容</param>
         /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> ProductDelete(ProductDto productDto)

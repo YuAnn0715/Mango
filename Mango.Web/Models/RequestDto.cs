@@ -2,7 +2,7 @@
 
 namespace Mango.Web.Models
 {
-    // 請求
+    // 請求view
     public class RequestDto
     {
         // API類型 (預設為 GET)

@@ -27,7 +27,6 @@ namespace Mango.Web.Controllers
         /// <summary>
         /// 登入
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
         public IActionResult Login()
         {
@@ -38,7 +37,7 @@ namespace Mango.Web.Controllers
         /// <summary>
         /// 資料庫登入
         /// </summary>
-        /// <returns></returns>
+        /// <param name="obj">登入請求資料</param>
         [HttpPost]
         public async Task<IActionResult> Login(LoginRequestDto obj)
         {
@@ -73,7 +72,6 @@ namespace Mango.Web.Controllers
         /// <summary>
         /// 註冊
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
         public IActionResult Register()
         {
@@ -90,7 +88,7 @@ namespace Mango.Web.Controllers
         /// <summary>
         /// 註冊到資料庫
         /// </summary>
-        /// <returns></returns>
+        /// <param name="obj">註冊請求資料</param>
         [HttpPost]
         public async Task<IActionResult> Register(RegistrationRequestDto obj)
         {
@@ -138,7 +136,8 @@ namespace Mango.Web.Controllers
         /// <summary>
         /// 調用使用者請求給頁面
         /// </summary>
-        /// <returns></returns>
+        ///  <param name="model">登入回應資料</param>
+
         private async Task SignInUser(LoginResponseDto model)
         {
             // 用來解析 JWT Token

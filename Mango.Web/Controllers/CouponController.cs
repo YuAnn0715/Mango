@@ -46,8 +46,7 @@ namespace Mango.Web.Controllers
         /// <summary>
         /// 調用新增優惠券API
         /// </summary>
-        /// <param name="model">優惠券內容</param>
-        /// <returns>結果</returns>
+        /// <param name="model">優惠券請求內容</param>
         [HttpPost]
         public async Task<IActionResult> CouponCreate(CouponDto model)
         {
@@ -70,8 +69,7 @@ namespace Mango.Web.Controllers
         /// <summary>
         /// 刪除優惠券
         /// </summary>
-        /// <param name="couponId"></param>
-        /// <returns></returns>
+        /// <param name="couponId">優惠券編號</param>
         public async Task<IActionResult> CouponDelete(int couponId)
         {
             ResponseDto? response = await _couponService.GetCouponByIdAsync(couponId);
@@ -90,8 +88,7 @@ namespace Mango.Web.Controllers
         /// <summary>
         /// 調用刪除優惠券API
         /// </summary>
-        /// <param name="couponId"></param>
-        /// <returns></returns>
+        /// <param name="couponDto">優惠券請求內容</param>
         [HttpPost]
         public async Task<IActionResult> CouponDelete(CouponDto couponDto)
         {

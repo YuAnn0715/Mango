@@ -6,6 +6,7 @@ namespace Mango.Web.Service
 {
     public class ProductService : IProductService
     {
+        // DI注入
         private readonly IBaseService _baseService;
         public ProductService(IBaseService baseService)
         {
@@ -15,7 +16,6 @@ namespace Mango.Web.Service
         /// <summary>
         /// 取得全部優惠券
         /// </summary>
-        /// <returns></returns>
         public async Task<ResponseDto?> GetAllProductsAsync()
         {
             return await _baseService.SendAsync(new RequestDto()
@@ -28,8 +28,7 @@ namespace Mango.Web.Service
         /// <summary>
         /// 依Id取得產品
         /// </summary>
-        /// <param name="id">編號</param>
-        /// <returns></returns>
+        /// <param name="id">產品Id</param>
         public async Task<ResponseDto?> GetProductByIdAsync(int id)
         {
             return await _baseService.SendAsync(new RequestDto()
@@ -42,8 +41,7 @@ namespace Mango.Web.Service
         /// <summary>
         /// 建立新產品
         /// </summary>
-        /// <param name="productDto"></param>
-        /// <returns></returns>
+        /// <param name="productDto">產品請求內容</param>
         public async Task<ResponseDto?> CreateProductsAsync(ProductDto productDto)
         {
             return await _baseService.SendAsync(new RequestDto()
@@ -58,8 +56,7 @@ namespace Mango.Web.Service
         /// <summary>
         /// 更新產品
         /// </summary>
-        /// <param name="productDto"></param>
-        /// <returns></returns>
+        /// <param name="productDto">產品請求內容</param>
         public async Task<ResponseDto?> UpdateProductsAsync(ProductDto productDto)
         {
             return await _baseService.SendAsync(new RequestDto()
@@ -74,8 +71,7 @@ namespace Mango.Web.Service
         /// <summary>
         /// 刪除產品
         /// </summary>
-        /// <param name="id">編號</param>
-        /// <returns></returns>
+        /// <param name="id">產品Id</param>
         public async Task<ResponseDto?> DeleteProductsAsync(int id)
         {
             return await _baseService.SendAsync(new RequestDto()

@@ -6,6 +6,7 @@ namespace Mango.Web.Service
 {
     public class CouponService : ICouponService
     {
+        // DI注入
         private readonly IBaseService _baseService;
         public CouponService(IBaseService baseService)
         {
@@ -15,7 +16,6 @@ namespace Mango.Web.Service
         /// <summary>
         /// 取得全部優惠券
         /// </summary>
-        /// <returns></returns>
         public async Task<ResponseDto?> GetAllCouponsAsync()
         {
             return await _baseService.SendAsync(new RequestDto()
@@ -28,8 +28,7 @@ namespace Mango.Web.Service
         /// <summary>
         /// 依code取得優惠券
         /// </summary>
-        /// <param name="couponCode">代碼</param>
-        /// <returns></returns>
+        /// <param name="couponCode">優惠券代碼</param>
         public async Task<ResponseDto?> GetCoupon(string couponCode)
         {
             return await _baseService.SendAsync(new RequestDto()
@@ -42,7 +41,7 @@ namespace Mango.Web.Service
         /// <summary>
         /// 依Id取得優惠券
         /// </summary>
-        /// <param name="id">編號</param>
+        /// <param name="id">優惠券編號</param>
         /// <returns></returns>
         public async Task<ResponseDto?> GetCouponByIdAsync(int id)
         {
@@ -56,7 +55,7 @@ namespace Mango.Web.Service
         /// <summary>
         /// 建立新優惠券
         /// </summary>
-        /// <param name="couponDto">優惠券內容</param>
+        /// <param name="couponDto">優惠券請求內容</param>
         /// <returns></returns>
         public async Task<ResponseDto?> CreateCouponsAsync(CouponDto couponDto)
         {
@@ -71,7 +70,7 @@ namespace Mango.Web.Service
         /// <summary>
         /// 更新優惠券
         /// </summary>
-        /// <param name="couponDto">優惠券內容</param>
+        /// <param name="couponDto">優惠券請求內容</param>
         /// <returns></returns>
         public async Task<ResponseDto?> UpdateCouponsAsync(CouponDto couponDto)
         {
@@ -86,7 +85,7 @@ namespace Mango.Web.Service
         /// <summary>
         /// 刪除優惠券
         /// </summary>
-        /// <param name="id">編號</param>
+        /// <param name="id">優惠券編號</param>
         /// <returns></returns>
         public async Task<ResponseDto?> DeleteCouponsAsync(int id)
         {

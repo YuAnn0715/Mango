@@ -6,6 +6,7 @@ namespace Mango.Web.Service
 {
     public class AuthService: IAuthService
     {
+        // DI注入
         private readonly IBaseService _baseService;
         public AuthService(IBaseService baseService)
         {
@@ -16,7 +17,6 @@ namespace Mango.Web.Service
         /// 角色設定
         /// </summary>
         /// <param name="registrationRequestDto">註冊請求</param>
-        /// <returns></returns>
         public async Task<ResponseDto?> AssignRoleAsync(RegistrationRequestDto registrationRequestDto) 
         {
             return await _baseService.SendAsync(new RequestDto()
@@ -27,12 +27,10 @@ namespace Mango.Web.Service
             });
         }
 
-
         /// <summary>
         /// 異步登入
         /// </summary>
         /// <param name="loginRequestDto">登入請求</param>
-        /// <returns>登入結果</returns>
         public async Task<ResponseDto?> LoginAsync(LoginRequestDto loginRequestDto)
         {
             return await _baseService.SendAsync(new RequestDto()
@@ -43,12 +41,10 @@ namespace Mango.Web.Service
             }, withBearer: false);
         }
 
-
         /// <summary>
         /// 寄存資訊
         /// </summary>
         /// <param name="registrationRequestDto">註冊請求</param>
-        /// <returns></returns>
         public async Task<ResponseDto?> RegisterAsync(RegistrationRequestDto registrationRequestDto)
         {
             return await _baseService.SendAsync(new RequestDto()

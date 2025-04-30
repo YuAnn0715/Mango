@@ -20,7 +20,6 @@ namespace Mango.Web.Controllers
         /// <summary>
         /// 訂單管理頁面
         /// </summary>
-        /// <returns></returns>
         [Authorize]
         public IActionResult OrderIndex()
         {
@@ -30,8 +29,7 @@ namespace Mango.Web.Controllers
         /// <summary>
         /// 訂單細節
         /// </summary>
-        /// <param name="orderId"></param>
-        /// <returns></returns>
+        /// <param name="orderId">訂單編號</param>
         [Authorize]
         public async Task<IActionResult> OrderDetail(int orderId)
         {
@@ -53,8 +51,7 @@ namespace Mango.Web.Controllers
         /// <summary>
         /// 準備好訂單
         /// </summary>
-        /// <param name="orderId"></param>
-        /// <returns></returns>
+        /// <param name="orderId">訂單編號</param>
         [HttpPost("OrderReadyForPickup")]
         public async Task<IActionResult> OrderReadyForPickup(int orderId)
         {
@@ -70,8 +67,7 @@ namespace Mango.Web.Controllers
         /// <summary>
         /// 完成訂單
         /// </summary>
-        /// <param name="orderId"></param>
-        /// <returns></returns>
+        /// <param name="orderId">訂單編號</param>
         [HttpPost("CompleteOrder")]
         public async Task<IActionResult> CompleteOrder(int orderId)
         {
@@ -87,8 +83,7 @@ namespace Mango.Web.Controllers
         /// <summary>
         /// 取消訂單
         /// </summary>
-        /// <param name="orderId"></param>
-        /// <returns></returns>
+        /// <param name="orderId">訂單編號</param>
         [HttpPost("CancelOrder")]
         public async Task<IActionResult> CancelOrder(int orderId)
         {
@@ -104,8 +99,7 @@ namespace Mango.Web.Controllers
         /// <summary>
         /// 取得指定狀態的全部訂單
         /// </summary>
-        /// <param name="status"></param>
-        /// <returns></returns>
+        /// <param name="status">訂單狀態</param>
         [HttpGet]
         public IActionResult GetAll(string status)
         {

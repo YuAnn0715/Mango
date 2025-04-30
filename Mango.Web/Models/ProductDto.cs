@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Mango.Web.Models
 {
+    // 產品view
     public class ProductDto
     {
         // 產品編號

@@ -25,7 +25,6 @@ namespace Mango.Web.Controllers
         /// <summary>
         /// 購物車頁面
         /// </summary>
-        /// <returns></returns>
         [Authorize]
         public async Task<IActionResult> CartIndex()
         {
@@ -35,7 +34,6 @@ namespace Mango.Web.Controllers
         /// <summary>
         /// 結帳頁面
         /// </summary>
-        /// <returns></returns>
         [Authorize]
         public async Task<IActionResult> Checkout()
         {
@@ -45,7 +43,7 @@ namespace Mango.Web.Controllers
         /// <summary>
         /// 結帳
         /// </summary>
-        /// <returns></returns>
+        /// <param name="cartDto">購物車請求內容</param>
         [HttpPost]
         [ActionName("Checkout")]
         public async Task<IActionResult> Checkout(CartDto cartDto)
@@ -84,7 +82,6 @@ namespace Mango.Web.Controllers
         /// 信用卡支付確認
         /// </summary>
         /// <param name="orderId">訂單Id</param>
-        /// <returns></returns>
         public async Task<IActionResult> Confirmation(int orderId)
         {
             ResponseDto? response = await _orderService.ValidateStripeSession(orderId);
@@ -105,8 +102,7 @@ namespace Mango.Web.Controllers
         /// <summary>
         /// 刪除購物車產品
         /// </summary>
-        /// <param name="cartDetailsId"></param>
-        /// <returns></returns>
+        /// <param name="cartDetailsId">指定購物車編號詳細</param>
         public async Task<IActionResult> Remove(int cartDetailsId)
         {
             // 檢查登入使用者的ID
@@ -124,8 +120,7 @@ namespace Mango.Web.Controllers
         /// <summary>
         ///  輸入優惠券
         /// </summary>
-        /// <param name="cartDto"></param>
-        /// <returns></returns>
+        /// <param name="cartDto">購物車請求內容</param>
         [HttpPost]
         public async Task<IActionResult> ApplyCoupon(CartDto cartDto)
         {
@@ -144,7 +139,7 @@ namespace Mango.Web.Controllers
         /// <summary>
         ///  刪除優惠券
         /// </summary>
-        /// <param name="cartDto"></param>
+        /// <param name="cartDto">購物車請求內容</param>
         /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> RemoveCoupon(CartDto cartDto)
@@ -161,10 +156,9 @@ namespace Mango.Web.Controllers
         }
 
         /// <summary>
-        /// email功能 不可用 azure
+        /// email功能 不可用 需使用azure
         /// </summary>
-        /// <param name="cartDto"></param>
-        /// <returns></returns>
+        /// <param name="cartDto">購物車請求內容</param>
         [HttpPost]
         public async Task<IActionResult> EmailCart(CartDto cartDto)
         {
@@ -182,7 +176,6 @@ namespace Mango.Web.Controllers
         /// <summary>
         /// 根據登入的使用者來載入購物車
         /// </summary>
-        /// <returns></returns>
         private async Task<CartDto> LoadCartDtoBaseOnLoggedInUser()
         {
             // 檢查登入使用者的ID

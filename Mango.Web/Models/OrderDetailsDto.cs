@@ -1,5 +1,6 @@
 ﻿namespace Mango.Web.Models
 {
+    // 訂單詳細view
     public class OrderDetailsDto
     {
         // 訂單內容Id

@@ -20,11 +20,9 @@ namespace Mango.Web.Controllers
             _logger = logger;
         }
 
-
         /// <summary>
         /// 首頁
         /// </summary>
-        /// <returns></returns>
         public async Task<IActionResult> Index()
         {
             List<ProductDto>? list = [];
@@ -44,7 +42,7 @@ namespace Mango.Web.Controllers
         /// <summary>
         /// 商品詳細
         /// </summary>
-        /// <returns></returns>
+        /// <param name="productId">產品編號</param>
         [Authorize]
         public async Task<IActionResult> ProductDetails(int productId)
         {
@@ -62,11 +60,10 @@ namespace Mango.Web.Controllers
             return View(model);
         }
 
-
         /// <summary>
         /// 商品詳細
         /// </summary>
-        /// <returns></returns>
+        /// <param name="productDto">產品請求內容</param>
         [Authorize]
         [HttpPost]
         [ActionName("ProductDetails")]
@@ -103,16 +100,5 @@ namespace Mango.Web.Controllers
             }
             return View(productDto);
         }
-
-        //public IActionResult Privacy()
-        //{
-        //    return View();
-        //}
-
-        //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        //public IActionResult Error()
-        //{
-        //    return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        //}
     }
 }

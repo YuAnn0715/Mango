@@ -1,6 +1,6 @@
 ﻿namespace Mango.Web.Models
 {
-    // 使用者登入回應
+    // 使用者登入回應view
     public class LoginResponseDto
     {
         // 使用者資料

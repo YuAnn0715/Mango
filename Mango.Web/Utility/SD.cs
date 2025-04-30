@@ -2,22 +2,7 @@
 {
     public class SD
     {
-        public static string CouponAPIBase { get; set; }
-
-        public static string ProductAPIBase { get; set; }
-
-        public static string AuthAPIBase { get; set; }
-
-        public static string ShoppingCartAPIBase { get; set; }
-
-        public static string OrderAPIBase { get; set; }
-
-        // 預設常量
-        public const string RoleAdmin = "ADMIN";
-        public const string RoleCustomer = "CUSTOMER";
-        public const string TokenCookies = "JWTToken";
-
-        // API 
+        // API 類別
         public enum ApiType
         {
             GET,
@@ -26,6 +11,29 @@
             DELETE
         }
 
+        // 優惠券 API
+        public static string CouponAPIBase { get; set; }
+
+        // 產品 API
+        public static string ProductAPIBase { get; set; }
+
+        // 驗證授權 API
+        public static string AuthAPIBase { get; set; }
+
+        // 購物車 API
+        public static string ShoppingCartAPIBase { get; set; }
+
+        // 訂單 API
+        public static string OrderAPIBase { get; set; }
+
+        /// <summary>
+        /// 預設常量
+        /// </summary>
+        // 角色
+        public const string RoleAdmin = "ADMIN";
+        public const string RoleCustomer = "CUSTOMER";
+        // JWTToken
+        public const string TokenCookies = "JWTToken";
         // 訂單狀態
         public const string Status_Pending = "Pending";
         public const string Status_Approved = "Approved";

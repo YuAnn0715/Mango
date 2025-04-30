@@ -6,6 +6,7 @@ namespace Mango.Web.Service
 {
     public class CartService : ICartService
     {
+        // DI注入
         private readonly IBaseService _baseService;
         public CartService(IBaseService baseService)
         {
@@ -16,7 +17,6 @@ namespace Mango.Web.Service
         /// 依userId取得對應購物車
         /// </summary>
         /// <param name="userId">使用者ID</param>
-        /// <returns></returns>
 
         public async Task<ResponseDto?> GetCartByUserIdAsync(string userId)
         {
@@ -30,8 +30,7 @@ namespace Mango.Web.Service
         /// <summary>
         /// 新增更改購物車
         /// </summary>
-        /// <param name="cartDto">購物車內容</param>
-        /// <returns></returns>
+        /// <param name="cartDto">購物車請求內容</param>
         public async Task<ResponseDto?> UpsertCartAsync(CartDto cartDto)
         {
             return await _baseService.SendAsync(new RequestDto()
@@ -46,7 +45,6 @@ namespace Mango.Web.Service
         /// 刪除購物車內容
         /// </summary>
         /// <param name="cartDetailsId">購物車內容產品編號</param>
-        /// <returns></returns>
         public async Task<ResponseDto?> RemoveFromCartAsync(int cartDetailsId)
         {
             return await _baseService.SendAsync(new RequestDto()
@@ -60,8 +58,7 @@ namespace Mango.Web.Service
         /// <summary>
         /// 使用優惠券
         /// </summary>
-        /// <param name="cartDto">購物車內容</param>
-        /// <returns></returns>
+        /// <param name="cartDto">購物車請求內容</param>
         public async Task<ResponseDto?> ApplyCouponAsync(CartDto cartDto)
         {
             return await _baseService.SendAsync(new RequestDto()
@@ -72,12 +69,10 @@ namespace Mango.Web.Service
             });
         }
 
-
         /// <summary>
         /// email功能 不可用 azure
         /// </summary>
-        /// <param name="cartDto"></param>
-        /// <returns></returns>
+        /// <param name="cartDto">購物車請求內容</param>
         public async Task<ResponseDto?> EmailCart(CartDto cartDto)
         {
             return await _baseService.SendAsync(new RequestDto()
@@ -87,6 +82,5 @@ namespace Mango.Web.Service
                 Url = SD.ShoppingCartAPIBase + "/api/cart/EmailCartRequest"
             });
         }
-
     }
 }

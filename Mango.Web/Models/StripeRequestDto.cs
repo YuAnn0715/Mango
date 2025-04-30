@@ -1,5 +1,6 @@
 ﻿namespace Mango.Web.Models
 {
+    // Stripe 支付請求view
     public class StripeRequestDto
     {
         // Stripe 支付 Session Url

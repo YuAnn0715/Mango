@@ -6,6 +6,7 @@ namespace Mango.Web.Service
 {
     public class OrderService : IOrderService
     {
+        // DI注入
         private readonly IBaseService _baseService;
         public OrderService(IBaseService baseService)
         {
@@ -15,9 +16,7 @@ namespace Mango.Web.Service
         /// <summary>
         /// 建立訂單
         /// </summary>
-        /// <param name="userId">使用者ID</param>
-        /// <returns></returns>
-
+        /// <param name="cartDto">購物車請求內容</param>
         public async Task<ResponseDto?> CreateOrder(CartDto cartDto)
         {
             return await _baseService.SendAsync(new RequestDto()
@@ -31,8 +30,7 @@ namespace Mango.Web.Service
         /// <summary>
         ///  建立 Stripe 支付 Session
         /// </summary>
-        /// <param name="stripeRequestDto">Stripe請求</param>
-        /// <returns></returns>
+        /// <param name="stripeRequestDto">Stripe請求內容</param>
 
         public async Task<ResponseDto?> CreateStripeSession(StripeRequestDto stripeRequestDto)
         {
@@ -45,10 +43,9 @@ namespace Mango.Web.Service
         }
 
         /// <summary>
-        ///  檢查訂單
+        /// 檢查訂單
         /// </summary>
         /// <param name="orderHeaderId">訂單Id</param>
-        /// <returns></returns>
 
         public async Task<ResponseDto?> ValidateStripeSession(int orderHeaderId)
         {
@@ -63,8 +60,7 @@ namespace Mango.Web.Service
         /// <summary>
         /// 取得全部訂單
         /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
+        /// <param name="userId">使用者Id</param>
         public async Task<ResponseDto?> GetAllOrder(string? userId)
         {
             return await _baseService.SendAsync(new RequestDto()
@@ -77,8 +73,7 @@ namespace Mango.Web.Service
         /// <summary>
         /// 取得指定訂單
         /// </summary>
-        /// <param name="orderId"></param>
-        /// <returns></returns>
+        /// <param name="orderId">訂單Id</param>
         public async Task<ResponseDto?> GetOrder(int orderId)
         {
             return await _baseService.SendAsync(new RequestDto()
@@ -91,16 +86,15 @@ namespace Mango.Web.Service
         /// <summary>
         /// 更新訂單狀態
         /// </summary>
-        /// <param name="orderId"></param>
-        /// <param name="newStatus"></param>
-        /// <returns></returns>
-        public async Task<ResponseDto?> UpdateOrderStatus(int orderId,string newStatus)
+        /// <param name="orderId">訂單Id</param>
+        /// <param name="newStatus">新狀態</param>
+        public async Task<ResponseDto?> UpdateOrderStatus(int orderId, string newStatus)
         {
             return await _baseService.SendAsync(new RequestDto()
             {
                 ApiType = SD.ApiType.POST,
                 Data = newStatus,
-                Url = SD.OrderAPIBase + "/api/order/UpdateOrderStatus/"+orderId
+                Url = SD.OrderAPIBase + "/api/order/UpdateOrderStatus/" + orderId
             });
         }
     }
