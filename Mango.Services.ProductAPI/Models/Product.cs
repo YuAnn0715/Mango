@@ -2,7 +2,7 @@
 
 namespace Mango.Services.ProductAPI.Models
 {
-    // 商品
+    // 產品
     public class Product
     {
         // 產品Id

@@ -8,6 +8,7 @@ namespace Mango.Service.AuthAPI.Service
 {
     public class AuthService : IAuthService
     {
+        // DI注入
         private readonly AppDbContext _db;
         // 使用者管理員
         private readonly UserManager<ApplicationUser> _userManager;
@@ -15,7 +16,6 @@ namespace Mango.Service.AuthAPI.Service
         private readonly RoleManager<IdentityRole> _roleManager;
         // 生成JWT安全令牌
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
-        // DI注入
         public AuthService(AppDbContext db, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IJwtTokenGenerator jwtTokenGenerator)
         {
             _db = db;
@@ -24,12 +24,10 @@ namespace Mango.Service.AuthAPI.Service
             _jwtTokenGenerator = jwtTokenGenerator;
         }
 
-
         /// <summary>
         /// 註冊
         /// </summary>
-        /// <param name="registrationRequestDto">註冊資訊</param>
-        /// <returns>註冊結果字串</returns>
+        /// <param name="registrationRequestDto">註冊請求內容</param>
 
         public async Task<string> Register(RegistrationRequestDto registrationRequestDto)
         {
@@ -71,12 +69,10 @@ namespace Mango.Service.AuthAPI.Service
             }
         }
 
-
         /// <summary>
         /// 登入
         /// </summary>
-        /// <param name="loginRequestDto">頁面登入資訊</param>
-        /// <returns>登入回應</returns>
+        /// <param name="loginRequestDto">登入請求內容</param>
         public async Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto)
         {
             var user = _db.ApplicationUsers.FirstOrDefault(u => u.UserName.ToLower() == loginRequestDto.UserName.ToLower());
@@ -105,7 +101,6 @@ namespace Mango.Service.AuthAPI.Service
                 User = userDto,
                 Token = token
             };
-
             return loginResponseDto;
         }
 

@@ -4,10 +4,7 @@ using Mango.Services.OrderAPI.Models;
 using Mango.Services.OrderAPI.Models.Dto;
 using Mango.Services.OrderAPI.Utility;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-//using Stripe.Checkout;
-//using Stripe;
 using Mango.MessageBus;
 using Microsoft.EntityFrameworkCore;
 using Mango.Services.OrderAPI.Service.IService;
@@ -21,6 +18,7 @@ namespace Mango.Services.OrderAPI.Controllers
     [ApiController]
     public class OrderAPIController : ControllerBase
     {
+        // DI注入
         protected ResponseDto _response;
         private IMapper _mapper;
         private readonly AppDbContext _db;
@@ -40,10 +38,9 @@ namespace Mango.Services.OrderAPI.Controllers
         }
 
         /// <summary>
-        /// 取得全部訂單
+        /// 取得使用者全部訂單
         /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
+        /// <param name="userId">使用者Id</param>
         [Authorize]
         [HttpGet("GetOrders")]
         public ResponseDto? Get(string? userId = "")
@@ -72,8 +69,7 @@ namespace Mango.Services.OrderAPI.Controllers
         /// <summary>
         /// 取得指定訂單
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">訂單Id</param>
         [Authorize]
         [HttpGet("GetOrder/{id:int}")]
         public ResponseDto? Get(int id)
@@ -94,9 +90,7 @@ namespace Mango.Services.OrderAPI.Controllers
         /// <summary>
         /// 建立訂單
         /// </summary>
-        /// <param name="cartDto"></param>
-        /// <returns></returns>
-
+        /// <param name="cartDto">購物車請求內容</param>
         [Authorize]
         [HttpPost("CreateOrder")]
         public async Task<ResponseDto> CreateOrder([FromBody] CartDto cartDto)
@@ -126,15 +120,13 @@ namespace Mango.Services.OrderAPI.Controllers
         /// <summary>
         /// 建立 Stripe 支付
         /// </summary>
-        /// <param name="stripeRequestDto"></param>
-        /// <returns></returns>
+        /// <param name="stripeRequestDto">Stripe請求內容</param>
         [Authorize]
         [HttpPost("CreateStripeSession")]
         public async Task<ResponseDto> CreateStripeSession([FromBody] StripeRequestDto stripeRequestDto)
         {
             try
             {
-
                 var options = new SessionCreateOptions
                 {
                     SuccessUrl = stripeRequestDto.ApprovedUrl,
@@ -170,7 +162,6 @@ namespace Mango.Services.OrderAPI.Controllers
                         },
                         Quantity = item.Count
                     };
-
                     options.LineItems.Add(sessionLineItem);
                 }
 
@@ -185,7 +176,6 @@ namespace Mango.Services.OrderAPI.Controllers
                 orderHeader.StripeSessionId = session.Id;
                 _db.SaveChanges();
                 _response.Result = stripeRequestDto;
-
             }
             catch (Exception ex)
             {
@@ -199,7 +189,6 @@ namespace Mango.Services.OrderAPI.Controllers
         /// 檢查訂單
         /// </summary>
         /// <param name="orderHeaderId">訂單Id</param>
-        /// <returns></returns>
         [Authorize]
         [HttpPost("ValidateStripeSession")]
         public async Task<ResponseDto> ValidateStripeSession([FromBody] int orderHeaderId)
@@ -233,7 +222,6 @@ namespace Mango.Services.OrderAPI.Controllers
                     //await _messageBus.PublishMessage(rewardsDto, topicName);
                     _response.Result = _mapper.Map<OrderHeaderDto>(orderHeader);
                 }
-
             }
             catch (Exception ex)
             {
@@ -246,9 +234,8 @@ namespace Mango.Services.OrderAPI.Controllers
         /// <summary>
         /// 更新訂單狀態
         /// </summary>
-        /// <param name="orderId"></param>
-        /// <param name="newStatus"></param>
-        /// <returns></returns>
+        /// <param name="orderId">訂單Id</param>
+        /// <param name="newStatus">新狀態</param>
         [Authorize]
         [HttpPost("UpdateOrderStatus/{orderId:int}")]
         public async Task<ResponseDto> UpdateOrderStatus(int orderId, [FromBody] string newStatus)

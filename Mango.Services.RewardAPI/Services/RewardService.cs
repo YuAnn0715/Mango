@@ -8,6 +8,7 @@ namespace Mango.Services.RewardAPI.Services
 {
     public class RewardService : IRewardService
     {
+        // DI注入
         private DbContextOptions<AppDbContext> _dbOptions;
 
         public RewardService(DbContextOptions<AppDbContext> dbOptions)
@@ -18,26 +19,19 @@ namespace Mango.Services.RewardAPI.Services
         /// <summary>
         ///  更新獎勵
         /// </summary>
-        /// <param name="rewardsMessage"></param>
-        /// <returns></returns>
+        /// <param name="rewardsMessage">獎勵訊息</param>
         public async Task UpdateRewards(RewardsMessage rewardsMessage)
         {
-            try
+            Rewards rewards = new()
             {
-                Rewards rewards = new()
-                {
-                    OrderId = rewardsMessage.OrderId,
-                    RewardsActivity = rewardsMessage.RewardsActivity,
-                    UserId = rewardsMessage.UserId,
-                    RewardsDate = DateTime.Now
-                };
-                await using var _db = new AppDbContext(_dbOptions);
-                await _db.Rewards.AddAsync(rewards);
-                await _db.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-            }
+                OrderId = rewardsMessage.OrderId,
+                RewardsActivity = rewardsMessage.RewardsActivity,
+                UserId = rewardsMessage.UserId,
+                RewardsDate = DateTime.Now
+            };
+            await using var _db = new AppDbContext(_dbOptions);
+            await _db.Rewards.AddAsync(rewards);
+            await _db.SaveChangesAsync();
         }
     }
 }

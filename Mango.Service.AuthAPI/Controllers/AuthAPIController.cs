@@ -13,11 +13,11 @@ namespace Mango.Service.AuthAPI.Controllers
     [ApiController]
     public class AuthAPIController : ControllerBase
     {
+        // DI注入
         private readonly IAuthService _authService;
         private readonly IMessageBus _messageBus;
         private readonly IConfiguration _configuration;
         protected ResponseDto _responseDto;
-        // DI注入
         public AuthAPIController(IAuthService authService, IMessageBus messageBus, IConfiguration configuration)
         {
             _authService = authService;
@@ -26,6 +26,10 @@ namespace Mango.Service.AuthAPI.Controllers
             _responseDto = new();
         }
 
+        /// <summary>
+        /// 註冊
+        /// </summary>
+        /// <param name="model">註冊請求內容</param>
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegistrationRequestDto model)
         {
@@ -37,11 +41,15 @@ namespace Mango.Service.AuthAPI.Controllers
                 _responseDto.Message = errorMessage;
                 return BadRequest(_responseDto);
             }
-            // email 功能 azure 不可用
+            // email 功能 不可用 需使用 Azure
             //await _messageBus.PublishMessage(model.Email, _configuration.GetValue<string>("TopicAndQueueNames"));
             return Ok(_responseDto);
         }
 
+        /// <summary>
+        /// 登入
+        /// </summary>
+        /// <param name="model">登入請求內容</param>
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequestDto model)
         {
@@ -54,13 +62,12 @@ namespace Mango.Service.AuthAPI.Controllers
             }
             _responseDto.Result = loginResponse;
             return Ok(_responseDto);
-
         }
 
         /// <summary>
         /// 角色設定
         /// </summary>
-        /// <param name="model">設定內容</param>
+        /// <param name="model">註冊請求內容</param>
         /// <returns></returns>
         [HttpPost("AssignRole")]
         public async Task<IActionResult> AssignRole([FromBody] RegistrationRequestDto model)
@@ -73,7 +80,6 @@ namespace Mango.Service.AuthAPI.Controllers
                 return BadRequest(_responseDto);
             }
             return Ok(_responseDto);
-
         }
     }
 }

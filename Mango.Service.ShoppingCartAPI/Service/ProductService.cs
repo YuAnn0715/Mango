@@ -6,6 +6,7 @@ namespace Mango.Services.ShoppingCartAPI.Service
 {
     public class ProductService : IProductService
     {
+        // DI注入
         private readonly IHttpClientFactory _httpClientFactory;
 
         public ProductService(IHttpClientFactory clientFactory)
@@ -16,7 +17,6 @@ namespace Mango.Services.ShoppingCartAPI.Service
         /// <summary>
         ///  調用取得產品API
         /// </summary>
-        /// <returns></returns>
         public async Task<IEnumerable<ProductDto>> GetProducts()
         {
             var client = _httpClientFactory.CreateClient("Product");

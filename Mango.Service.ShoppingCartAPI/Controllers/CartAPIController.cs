@@ -15,6 +15,7 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
     [ApiController]
     public class CartAPIController : ControllerBase
     {
+        // DI注入
         private ResponseDto _response;
         private IMapper _mapper;
         private readonly AppDbContext _db;
@@ -37,8 +38,7 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
         /// <summary>
         /// 依使用者取得對應購物車API
         /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
+        /// <param name="userId">使用者Id</param>
         [HttpGet("GetCart/{userId}")]
         public async Task<ResponseDto> GetCart(string userId)
         {
@@ -84,8 +84,7 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
         /// <summary>
         /// 使用對應優惠券API
         /// </summary>
-        /// <param name="cartDto"></param>
-        /// <returns></returns>
+        /// <param name="cartDto">購物車請求內容</param>
         [HttpPost("ApplyCoupon")]
         public async Task<object> ApplyCoupon([FromBody] CartDto cartDto)
         {
@@ -108,7 +107,7 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
         /// <summary>
         /// 新增或更新購物車內容API
         /// </summary>
-        /// <param name="cartDto"></param>
+        /// <param name="cartDto">購物車請求內容</param>
         /// <returns></returns>
         [HttpPost("CartUpsert")]
         public async Task<ResponseDto> CartUpsert(CartDto cartDto)
@@ -163,11 +162,10 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
             return _response;
         }
 
-
         /// <summary>
         /// 刪除購物車內容API
         /// </summary>
-        /// <param name="cartDetailsId"></param>
+        /// <param name="cartDetailsId">購物車詳細內容請求Id</param>
         /// <returns></returns>
         [HttpPost("RemoveCart")]
         public async Task<ResponseDto> RemoveCart([FromBody] int cartDetailsId)
@@ -201,7 +199,7 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
         /// <summary>
         /// e-mail(不可用 azure無效)
         /// </summary>
-        /// <param name="cartDto"></param>
+        /// <param name="cartDto">購物車請求內容</param>
         /// <returns></returns>
         [HttpPost("EmailCartRequest")]
         public async Task<object> EmailCartRequest([FromBody] CartDto cartDto)

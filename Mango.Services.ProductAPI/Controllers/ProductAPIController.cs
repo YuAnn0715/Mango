@@ -25,6 +25,9 @@ namespace Mango.Services.ProductAPI.Controllers
 			_response = new ResponseDto();
 		}
 
+		/// <summary>
+		/// 取得全部產品
+		/// </summary>
 		[HttpGet]
 		public ResponseDto Get()
 		{
@@ -41,6 +44,10 @@ namespace Mango.Services.ProductAPI.Controllers
 			return _response;
 		}
 
+		/// <summary>
+		/// 取得指定產品
+		/// </summary>
+		/// <param name="id">產品Id</param>
 		[HttpGet]
 		[Route("{id:int}")]  //在相同Get名稱方法下 要有路由設定 Swagger才能分辨兩個端點之間的差異
 		public ResponseDto Get(int id)
@@ -58,6 +65,10 @@ namespace Mango.Services.ProductAPI.Controllers
 			return _response;
 		}
 
+		/// <summary>
+		/// 新增產品
+		/// </summary>
+		/// <param name="productDto">產品請求內容</param>
 		[HttpPost]
 		[Authorize(Roles = "ADMIN")]
 		public ResponseDto Post(ProductDto productDto)
@@ -103,6 +114,10 @@ namespace Mango.Services.ProductAPI.Controllers
 			return _response;
 		}
 
+		/// <summary>
+		/// 更新產品
+		/// </summary>
+		/// <param name="productDto">產品請求內容</param>
 		[HttpPut]
 		[Authorize(Roles = "ADMIN")]
 		public ResponseDto Put(ProductDto productDto)
@@ -151,6 +166,10 @@ namespace Mango.Services.ProductAPI.Controllers
 			return _response;
 		}
 
+		/// <summary>
+		/// 刪除指定產品
+		/// </summary>
+		/// <param name="id">產品Id</param>
 		[HttpDelete]
 		[Route("{id:int}")]
 		[Authorize(Roles = "ADMIN")]

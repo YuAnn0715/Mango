@@ -6,6 +6,7 @@ namespace Mango.Services.ShoppingCartAPI.Service
 {
     public class CouponService : ICouponService
     {
+        // DI注入
         private readonly IHttpClientFactory _httpClientFactory;
 
         public CouponService(IHttpClientFactory clientFactory)
@@ -13,6 +14,10 @@ namespace Mango.Services.ShoppingCartAPI.Service
             _httpClientFactory = clientFactory;
         }
 
+        /// <summary>
+        /// 調用依代碼取得優惠券API
+        /// </summary>
+        /// <param name="couponCode">優惠券代碼</param>
         public async Task<CouponDto> GetCoupon(string couponCode)
         {
             var client = _httpClientFactory.CreateClient("Coupon");
