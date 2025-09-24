@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System.Net;
 using System.Text;
 using static Mango.Web.Utility.SD;
+using Microsoft.Extensions.Logging;
 
 namespace Mango.Web.Service
 {
@@ -12,10 +13,14 @@ namespace Mango.Web.Service
         // DI注入
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly ITokenProvider _tokenProvider;
-        public BaseService(IHttpClientFactory httpClientFactory, ITokenProvider tokenProvider)
+        private readonly ILogger<BaseService> _logger;
+
+
+        public BaseService(IHttpClientFactory httpClientFactory, ITokenProvider tokenProvider, ILogger<BaseService> logger)
         {
             _httpClientFactory = httpClientFactory;
             _tokenProvider = tokenProvider;
+            _logger = logger; // 初始化 ILogger
         }
 
         /// <summary>
@@ -26,6 +31,7 @@ namespace Mango.Web.Service
         {
             try
             {
+                _logger.LogInformation("Start processing API requests: {Url}, Function: {ApiType}", requestDto.Url, requestDto.ApiType);
                 HttpClient client = _httpClientFactory.CreateClient("MangoAPI");
                 HttpRequestMessage message = new();
                 // 檢查傳遞資料的類別
@@ -44,6 +50,8 @@ namespace Mango.Web.Service
                 {
                     var token = _tokenProvider.GetToken();
                     message.Headers.Add("Authorization", $"Bearer {token}");
+                    _logger.LogInformation("Attach Bearer Token: {Token}", token);
+
                 }
                 message.RequestUri = new Uri(requestDto.Url);
 
@@ -92,8 +100,10 @@ namespace Mango.Web.Service
                         message.Method = HttpMethod.Get;
                         break;
                 }
+                _logger.LogInformation("Sending HTTP requests: {Method} {Url}", message.Method, message.RequestUri);
 
                 apiResponse = await client.SendAsync(message);
+                _logger.LogInformation("HTTP response received: {StatusCode}", apiResponse.StatusCode);
 
                 switch (apiResponse.StatusCode)
                 {
@@ -113,6 +123,7 @@ namespace Mango.Web.Service
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Error: {Message}", ex.Message);
                 var dto = new ResponseDto
                 {
                     Message = ex.Message.ToString(),

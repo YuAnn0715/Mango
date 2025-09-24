@@ -2,6 +2,7 @@ using Mango.Web.Service;
 using Mango.Web.Service.IService;
 using Mango.Web.Utility;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,7 +35,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ITokenProvider, TokenProvider>();
 
-// 設置cookies
+// 設置 cookies
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -42,6 +43,13 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.LoginPath = "/Auth/Login";
         options.AccessDeniedPath = "/Auth/AccessDenied";
     });
+
+// 配置 Serilog
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .WriteTo.File("Logs/log-.txt", rollingInterval: RollingInterval.Day) // 儲存到檔案
+    .CreateLogger();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
