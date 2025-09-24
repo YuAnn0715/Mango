@@ -14,7 +14,7 @@ namespace Mango.Web.Service
         }
 
         /// <summary>
-        /// 取得全部優惠券
+        /// 取得全部產品
         /// </summary>
         public async Task<ResponseDto?> GetAllProductsAsync()
         {

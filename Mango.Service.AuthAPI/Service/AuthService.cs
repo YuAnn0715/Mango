@@ -108,7 +108,7 @@ namespace Mango.Service.AuthAPI.Service
         /// 角色設定
         /// </summary>
         /// <param name="email">使用者email</param>
-        /// <param name="roleName">角色名稱</param>
+        /// <param name="roleName">角色名稱</param> 
         /// <returns>是否</returns>
         public async Task<bool> AssignRole(string email, string roleName)
         {
