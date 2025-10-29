@@ -43,7 +43,7 @@ namespace Mango.Services.EmailAPI.Services
 
         public async Task RegisterUserEmailAndLog(string email)
         {
-            string message = "User Registeration Successful. <br/> Email : " + email;
+            string message = "User Register Successful. <br/> Email : " + email;
             await LogAndEmail(message, "dotnetmastery@gmail.com");
         }
 
@@ -62,7 +62,7 @@ namespace Mango.Services.EmailAPI.Services
                 await _db.SaveChangesAsync();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }

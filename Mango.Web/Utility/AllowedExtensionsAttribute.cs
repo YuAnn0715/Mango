@@ -25,9 +25,7 @@ namespace Mango.Web.Utility
                     return new ValidationResult("This photo extension is not allowed!");
                 }
             }
-
             return ValidationResult.Success;
         }
-
     }
 }

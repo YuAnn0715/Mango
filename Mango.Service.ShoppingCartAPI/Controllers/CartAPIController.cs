@@ -23,8 +23,14 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
         private ICouponService _couponService;
         private IConfiguration _configuration;
         private readonly IMessageBus _messageBus;
-        public CartAPIController(AppDbContext db,
-            IMapper mapper, IProductService productService, ICouponService couponService, IMessageBus messageBus, IConfiguration configuration)
+
+        public CartAPIController(
+            AppDbContext db,
+            IMapper mapper, 
+            IProductService productService,
+            ICouponService couponService,
+            IMessageBus messageBus, 
+            IConfiguration configuration)
         {
             _db = db;
             _messageBus = messageBus;
@@ -144,7 +150,7 @@ namespace Mango.Services.ShoppingCartAPI.Controllers
                     }
                     else
                     {
-                        //有的話 更新相同產品的總數
+                        // 有的話 更新相同產品的總數
                         cartDto.CartDetails.First().Count += cartDetailsFromDb.Count;
                         cartDto.CartDetails.First().CartHeaderId = cartDetailsFromDb.CartHeaderId;
                         cartDto.CartDetails.First().CartDetailsId = cartDetailsFromDb.CartDetailsId;

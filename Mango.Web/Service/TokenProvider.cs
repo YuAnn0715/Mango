@@ -32,7 +32,7 @@ namespace Mango.Web.Service
         }
 
         /// <summary>
-        /// 調用並set token
+        /// 調用並且set token
         /// </summary>
         /// <param name="token">token</param>
         public void SetToken(string token)

@@ -11,6 +11,5 @@
 
         // 錯誤訊息
         public string Message { get; set; } = "";
-
     }
 }

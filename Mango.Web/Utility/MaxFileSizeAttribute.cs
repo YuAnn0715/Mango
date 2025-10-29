@@ -25,9 +25,7 @@ namespace Mango.Web.Utility
                     return new ValidationResult($"Maximum allowed file size is {_maxFileSize} MB.");
                 }
             }
-
             return ValidationResult.Success;
         }
-
     }
 }

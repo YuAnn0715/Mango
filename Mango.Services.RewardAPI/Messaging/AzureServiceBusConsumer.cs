@@ -13,7 +13,6 @@ namespace Mango.Services.RewardAPI.Messaging
         private readonly string orderCreatedRewardSubscription;
         private readonly IConfiguration _configuration;
         private readonly RewardService _rewardService;
-
         private ServiceBusProcessor _rewardProcessor;
 
         public AzureServiceBusConsumer(IConfiguration configuration, RewardService rewardService)
@@ -37,8 +36,6 @@ namespace Mango.Services.RewardAPI.Messaging
             await _rewardProcessor.StartProcessingAsync();
 
         }
-
-
 
         public async Task Stop()
         {
@@ -64,7 +61,6 @@ namespace Mango.Services.RewardAPI.Messaging
             {
                 throw;
             }
-
         }
 
         private Task ErrorHandler(ProcessErrorEventArgs args)
@@ -72,7 +68,5 @@ namespace Mango.Services.RewardAPI.Messaging
             Console.WriteLine(args.Exception.ToString());
             return Task.CompletedTask;
         }
-
-
     }
 }

@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using System.Net;
 using System.Text;
 using static Mango.Web.Utility.SD;
-using Microsoft.Extensions.Logging;
 
 namespace Mango.Web.Service
 {
@@ -20,7 +19,7 @@ namespace Mango.Web.Service
         {
             _httpClientFactory = httpClientFactory;
             _tokenProvider = tokenProvider;
-            _logger = logger; // 初始化 ILogger
+            _logger = logger;
         }
 
         /// <summary>
@@ -49,9 +48,15 @@ namespace Mango.Web.Service
 				if (withBearer)
                 {
                     var token = _tokenProvider.GetToken();
-                    message.Headers.Add("Authorization", $"Bearer {token}");
-                    _logger.LogInformation("Attach Bearer Token: {Token}", token);
-
+                    if (string.IsNullOrEmpty(token))
+                    {
+                        _logger.LogWarning("Bearer token is null or empty.");
+                    }
+                    else
+                    {
+                        message.Headers.Add("Authorization", $"Bearer {token}");
+                        _logger.LogInformation("Attach Bearer Token: {Token}", token.Substring(0, 5) + "...");
+                    }
                 }
                 message.RequestUri = new Uri(requestDto.Url);
 
@@ -64,9 +69,13 @@ namespace Mango.Web.Service
                         if (value is FormFile)
                         {
                             var file = (FormFile)value;
-                            if (file != null)
+                            if (file != null && file.Length > 0)
                             {
                                 content.Add(new StreamContent(file.OpenReadStream()), prop.Name, file.FileName);
+                            }
+                            else
+                            {
+                                _logger.LogWarning("File {FileName} is null or empty.", file?.FileName);
                             }
                         }
                         else
@@ -116,9 +125,32 @@ namespace Mango.Web.Service
                     case HttpStatusCode.InternalServerError:
                         return new() { IsSuccess = false, Message = "Internal Server Error" };
                     default:
-                        var apiContent = await apiResponse.Content.ReadAsStringAsync();
-                        var apiResponseDto = JsonConvert.DeserializeObject<ResponseDto>(apiContent);
-                        return apiResponseDto;
+                        if (apiResponse.IsSuccessStatusCode)
+                        {
+                            var apiContent = await apiResponse.Content.ReadAsStringAsync();
+                            try
+                            {
+                                var apiResponseDto = JsonConvert.DeserializeObject<ResponseDto>(apiContent);
+                                return apiResponseDto;
+                            }
+                            catch (JsonException ex)
+                            {
+                                _logger.LogError(ex, "Failed to deserialize API response.");
+                                return new ResponseDto
+                                {
+                                    IsSuccess = false,
+                                    Message = "Invalid response format."
+                                };
+                            }
+                        }
+                        else
+                        {
+                            return new ResponseDto
+                            {
+                                IsSuccess = false,
+                                Message = $"Unexpected status code: {apiResponse.StatusCode}"
+                            };
+                        }
                 }
             }
             catch (Exception ex)

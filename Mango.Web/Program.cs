@@ -19,7 +19,6 @@ builder.Services.AddHttpClient<IProductService, ProductService>();
 builder.Services.AddHttpClient<ICartService, CartService>();
 builder.Services.AddHttpClient<IOrderService, OrderService>();
 
-
 // API Url設置
 SD.CouponAPIBase = builder.Configuration["ServiceUrls:CouponAPI"];
 SD.AuthAPIBase = builder.Configuration["ServiceUrls:AuthAPI"];
@@ -44,12 +43,15 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.AccessDeniedPath = "/Auth/AccessDenied";
     });
 
-// 配置 Serilog
+// 配置 Serilog 日誌(Logger)
 Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug() // 設置建立最低日誌級別
     .WriteTo.Console()
     .WriteTo.File("Logs/log-.txt", rollingInterval: RollingInterval.Day) // 儲存到檔案
+    //.WriteTo.Email(new EmailConnectionInfo)
     .CreateLogger();
 
+builder.Services.AddSerilog();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

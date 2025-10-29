@@ -53,8 +53,6 @@ namespace Mango.Services.EmailAPI.Messaging
             await _emailOrderPlacedProcessor.StartProcessingAsync();
         }
 
-
-
         public async Task Stop()
         {
             await _emailCartProcessor.StopProcessingAsync();
@@ -130,7 +128,5 @@ namespace Mango.Services.EmailAPI.Messaging
             Console.WriteLine(args.Exception.ToString());
             return Task.CompletedTask;
         }
-
-
     }
 }
