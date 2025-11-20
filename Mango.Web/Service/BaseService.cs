@@ -14,7 +14,6 @@ namespace Mango.Web.Service
         private readonly ITokenProvider _tokenProvider;
         private readonly ILogger<BaseService> _logger;
 
-
         public BaseService(IHttpClientFactory httpClientFactory, ITokenProvider tokenProvider, ILogger<BaseService> logger)
         {
             _httpClientFactory = httpClientFactory;
@@ -30,7 +29,7 @@ namespace Mango.Web.Service
         {
             try
             {
-                _logger.LogInformation("Start processing API requests: {Url}, Function: {ApiType}", requestDto.Url, requestDto.ApiType);
+                _logger.LogInformation("開始處理API請求: {Url}, 方法: {ApiType}", requestDto.Url, requestDto.ApiType);
                 HttpClient client = _httpClientFactory.CreateClient("MangoAPI");
                 HttpRequestMessage message = new();
                 // 檢查傳遞資料的類別
@@ -66,16 +65,15 @@ namespace Mango.Web.Service
                     foreach (var prop in requestDto.Data.GetType().GetProperties())
                     {
                         var value = prop.GetValue(requestDto.Data);
-                        if (value is FormFile)
+                        if (value is FormFile file)
                         {
-                            var file = (FormFile)value;
                             if (file != null && file.Length > 0)
                             {
                                 content.Add(new StreamContent(file.OpenReadStream()), prop.Name, file.FileName);
                             }
                             else
                             {
-                                _logger.LogWarning("File {FileName} is null or empty.", file?.FileName);
+                                _logger.LogWarning("檔案: {FileName} is null or empty.", file?.FileName);
                             }
                         }
                         else
@@ -94,36 +92,30 @@ namespace Mango.Web.Service
                 }
                 HttpResponseMessage? apiResponse = null;
 
-                switch (requestDto.ApiType)
+                message.Method = requestDto.ApiType switch
                 {
-                    case ApiType.POST:
-                        message.Method = HttpMethod.Post;
-                        break;
-                    case ApiType.PUT:
-                        message.Method = HttpMethod.Put;
-                        break;
-                    case ApiType.DELETE:
-                        message.Method = HttpMethod.Delete;
-                        break;
-                    default:
-                        message.Method = HttpMethod.Get;
-                        break;
-                }
-                _logger.LogInformation("Sending HTTP requests: {Method} {Url}", message.Method, message.RequestUri);
+                    // 陳述式switch
+                    ApiType.POST => HttpMethod.Post,
+                    ApiType.PUT => HttpMethod.Put,
+                    ApiType.DELETE => HttpMethod.Delete,
+                    ApiType.GET => HttpMethod.Get,
+                    _ => HttpMethod.Get,
+                };
+                _logger.LogInformation("寄送 HTTP 請求: {Method} {Url}", message.Method, message.RequestUri);
 
                 apiResponse = await client.SendAsync(message);
-                _logger.LogInformation("HTTP response received: {StatusCode}", apiResponse.StatusCode);
+                _logger.LogInformation("HTTP 回應: {StatusCode}", apiResponse.StatusCode);
 
                 switch (apiResponse.StatusCode)
                 {
                     case HttpStatusCode.NotFound:
-                        return new() { IsSuccess = false, Message = "Not Found" };
+                        return new() { IsSuccess = false, Message = "未找到(Not Found)" };
                     case HttpStatusCode.Forbidden:
-                        return new() { IsSuccess = false, Message = "Access Denied" };
+                        return new() { IsSuccess = false, Message = "存取遭拒(Access Denied)" };
                     case HttpStatusCode.Unauthorized:
-                        return new() { IsSuccess = false, Message = "Unauthorized" };
+                        return new() { IsSuccess = false, Message = "未授權(Unauthorized)" };
                     case HttpStatusCode.InternalServerError:
-                        return new() { IsSuccess = false, Message = "Internal Server Error" };
+                        return new() { IsSuccess = false, Message = "內部伺服器錯誤(Internal Server Error)" };
                     default:
                         if (apiResponse.IsSuccessStatusCode)
                         {
@@ -135,11 +127,11 @@ namespace Mango.Web.Service
                             }
                             catch (JsonException ex)
                             {
-                                _logger.LogError(ex, "Failed to deserialize API response.");
+                                _logger.LogError(ex, "API 回應反序列化失敗.");
                                 return new ResponseDto
                                 {
                                     IsSuccess = false,
-                                    Message = "Invalid response format."
+                                    Message = "無效的 API 回應格式"
                                 };
                             }
                         }
@@ -148,7 +140,7 @@ namespace Mango.Web.Service
                             return new ResponseDto
                             {
                                 IsSuccess = false,
-                                Message = $"Unexpected status code: {apiResponse.StatusCode}"
+                                Message = $"意外的錯誤的狀態代碼: {apiResponse.StatusCode}"
                             };
                         }
                 }
